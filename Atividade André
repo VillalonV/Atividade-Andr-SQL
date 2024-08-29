@@ -1,0 +1,53 @@
+CREATE TABLE Autores (
+    id_autor INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    nacionalidade VARCHAR(50)
+);
+
+CREATE TABLE Categorias (
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Livros (
+    id_livro INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(150) NOT NULL,
+    id_autor INT,
+    id_categoria INT,
+    ano_publicacao INT,
+    FOREIGN KEY (id_autor) REFERENCES Autores(id_autor),
+    FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
+);
+
+INSERT INTO Autores (nome, nacionalidade) VALUES ('Machado de Assis', 'Brasileiro');
+INSERT INTO Autores (nome, nacionalidade) VALUES ('J.K. Rowling', 'Britânica');
+
+INSERT INTO Categorias (descricao) VALUES ('Ficção');
+INSERT INTO Categorias (descricao) VALUES ('Fantasia');
+
+INSERT INTO Livros (titulo, id_autor, id_categoria, ano_publicacao) 
+VALUES ('Dom Casmurro', 1, 1, 1899);
+
+INSERT INTO Livros (titulo, id_autor, id_categoria, ano_publicacao) 
+VALUES ('Harry Potter e a Pedra Filosofal', 2, 2, 1997);
+
+SELECT * FROM Autores;
+SELECT * FROM Categorias;
+SELECT * FROM Livros;
+
+SELECT L.titulo, A.nome AS autor, C.descricao AS categoria, L.ano_publicacao
+FROM Livros L
+JOIN Autores A ON L.id_autor = A.id_autor
+JOIN Categorias C ON L.id_categoria = C.id_categoria;
+
+UPDATE Autores
+SET nome = 'Joanne Rowling'
+WHERE id_autor = 2;
+
+UPDATE Livros
+SET id_categoria = 1
+WHERE id_livro = 2;
+
+DELETE FROM Livros WHERE id_livro = 1;
+DELETE FROM Autores WHERE id_autor = 1;
+DELETE FROM Categorias WHERE id_categoria = 2;
